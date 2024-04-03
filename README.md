@@ -16,10 +16,14 @@ Step 3 :- Check if all the containers are running
           
           docker ps
           
-Step 4 :- Exec into 5.7 container and Execute CHANGE MASTER command using "SHOW MASTER STATUS" from the mysql 8.
+Step 4 :- Exec into 8.0 container to get "SHOW MASTER STATUS"
+
+          docker exec -it $container_id_8.0 bash
           
-          docker exec -it $container_id bash
+Step 4 :- Exec into 5.7 container and Execute CHANGE MASTER
           
-Step 5 :- Repeat same for 5.6
+          docker exec -it $container_id_5.7 bash
+          
+Step 5 :- Repeat above step for 5.6
 
 Step 6 :- Test the replication creating some data.
