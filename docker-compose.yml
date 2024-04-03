@@ -1,0 +1,81 @@
+version: '3.7'
+
+services:
+  mysql8:
+    image: mysql:8.0.35
+    container_name: mysql8
+    restart: always
+    platform: linux/x86_64
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: replication_db
+      MYSQL_USER: replication_user
+      MYSQL_PASSWORD: replication_password
+      MYSQL_LOG_BIN: mysql-bin
+      MYSQL_SERVER_ID: 1
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./custom8.cnf:/etc/mysql/conf.d/custom.cnf
+      - mysql8_data:/var/lib/mysql
+    networks:
+      - mysql_network
+
+  mysql57:
+    image: mysql:5.7.44
+    container_name: mysql57
+    restart: always
+    platform: linux/x86_64
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: replication_db
+      MYSQL_USER: replication_user
+      MYSQL_PASSWORD: replication_password
+      MYSQL_LOG_BIN: mysql-bin
+      MYSQL_SERVER_ID: 2
+      MYSQL_MASTER_HOST: mysql8
+      MYSQL_MASTER_PORT: 3306
+      MYSQL_MASTER_USER: replication_user
+      MYSQL_MASTER_PASSWORD: replication_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./custom57.cnf:/etc/mysql/conf.d/custom.cnf
+      - mysql57_data:/var/lib/mysql
+    networks:
+      - mysql_network
+
+  mysql56:
+    image: mysql:5.6
+    container_name: mysql56
+    restart: always
+    platform: linux/x86_64
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: replication_db
+      MYSQL_USER: replication_user
+      MYSQL_PASSWORD: replication_password
+      MYSQL_LOG_BIN: mysql-bin
+      MYSQL_SERVER_ID: 3
+      MYSQL_MASTER_HOST: mysql8
+      MYSQL_MASTER_PORT: 3306
+      MYSQL_MASTER_USER: replication_user
+      MYSQL_MASTER_PASSWORD: replication_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./custom56.cnf:/etc/mysql/conf.d/custom.cnf
+      - mysql56_data:/var/lib/mysql
+    networks:
+      - mysql_network
+
+networks:
+  mysql_network:
+    driver: bridge
+
+volumes:
+  mysql8_data:
+  mysql57_data:
+  mysql56_data:
+
+

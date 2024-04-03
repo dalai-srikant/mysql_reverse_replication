@@ -1,0 +1,7 @@
+[mysqld]
+character_set_server=utf8mb4
+collation-server=utf8mb4_general_ci
+skip_character_set_client_handshake
+log_slave_updates=1
+log-bin=mysql-bin
+server-id=57
