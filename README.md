@@ -9,12 +9,15 @@ docker compose down
 Step 1 :- Download the repo
 
 Step 2 :- Start docker compose
+          
           docker compose up -d
           
 Step 3 :- Check if all the containers are running
+          
           docker ps
           
 Step 4 :- Exec into 5.7 container and Execute CHANGE MASTER command using "SHOW MASTER STATUS" from the mysql 8.
+          
           docker exec -it $container_id bash
           
 Step 5 :- Repeat same for 5.6
